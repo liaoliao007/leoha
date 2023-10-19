@@ -439,32 +439,4 @@ views:
             action: none
           hold_action:
             action: none
-  - title: 空调
-    path: ''
-    icon: mdi:air-conditioner
-    subview: true
-    badges: []
-    cards: []
-  - icon: mdi:airballoon
-    subview: true
-    badges: []
-    cards: []
-  - title: 风扇
-    path: ''
-    icon: mdi:wind-power
-    subview: true
-    badges: []
-    cards:
-      - type: entities
-        entities:
-          - entity: fan.dmaker_p9_431d_fan
-          - entity: switch.dmaker_p9_431d_alarm_2
-          - entity: switch.dmaker_p9_431d_alarm
-          - entity: switch.dmaker_p9_431d_horizontal_swing
-          - entity: select.dmaker_p9_431d_horizontal_angle
-            name: 旋转角度
-          - entity: number.dmaker_p9_431d_power_off_delay_time
-            name: 定时关闭
-          - entity: light.dmaker_p9_431d_indicator_light
-          - entity: switch.dmaker_p9_431d_physical_control_locked
 title: Liao‘s Home
