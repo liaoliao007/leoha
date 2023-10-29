@@ -1,0 +1,21 @@
+  - type: image
+    entity: light.hyd_znlyj5_e153_light #灯的实体ID。需要修改
+    tap_action:
+      action: none
+    style:
+      pointer-events: none
+      top: 50%  # 固定
+      left: 50%		# 固定
+      width: 100%	# 固定
+      mix_blend_mode: lighten
+    state_image:
+      'off': /local/hangzhou/touming.png     # 透明的图的地址。需要修改
+      'on': /local/hangzhou/keting.png	 # 该处亮灯要展示。需要修改
+  - type: state-icon
+    entity: light.hyd_znlyj5_e153_light 	#灯的实体ID，同上。需要修改
+    style:
+      top: 27%			# 图标位置，离顶点的距离占比%。需要修改
+      left: 62%			# 图标位置，离左侧的距离占比%。需要修改
+    tap_action:
+      action: toggle
+    icon: mdi:ceiling-light
