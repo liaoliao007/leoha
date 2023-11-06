@@ -1,0 +1,592 @@
+kiosk_mode:
+  hide_sidebar: true
+views:
+  - title: Home
+    icon: ''
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: iframe
+            url: /local/clock/index.html
+            aspect_ratio: 44%
+          - type: entity
+            entity: sensor.mi_2186809020_message
+            state_color: true
+            name: 消息
+          - type: custom:weather-card
+            entity: weather.wo_de_jia
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                entities:
+                  - sensor.wo_de_jia_wen_du
+              - type: custom:mini-graph-card
+                entities:
+                  - entity: sensor.wo_de_jia_shi_du
+                    name: 湿度
+                    show_state: true
+              - type: custom:mini-graph-card
+                entities:
+                  - entity: sensor.wo_de_jia_yu_liang
+                    name: 降雨量
+                    show_state: true
+              - type: custom:mini-graph-card
+                entities:
+                  - entity: sensor.wo_de_jia_zi_wai_xian
+                    name: 紫外线
+                    show_state: true
+          - type: iframe
+            url: >-
+              https://embed.windy.com/embed2.html?lat=24.378&lon=109.439&detailLat=24.378&detailLon=109.439&width=650&height=450&zoom=11&level=surface&overlay=wind&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1
+            aspect_ratio: 80%
+      - type: vertical-stack
+        cards:
+          - type: picture-elements
+            image: /local/house/wansh-0.png
+            elements:
+              - type: state-badge
+                entity: sensor.liaoliaode_jia_gan_jue_wen_du
+                title: 室内温度
+                style:
+                  top: 15%
+                  left: 7%
+              - type: image
+                entity: light.hyd_znlyj5_e153_light
+                tap_action:
+                  action: none
+                style:
+                  pointer-events: none
+                  top: 50%
+                  left: 50%
+                  width: 100%
+                  mix_blend_mode: lighten
+                state_image:
+                  'off': /local/house/touming.png
+                  'on': /local/house/yangtai.png
+              - type: state-icon
+                entity: light.hyd_znlyj5_e153_light
+                style:
+                  top: 27%
+                  left: 62%
+                tap_action:
+                  action: toggle
+                icon: mdi:ceiling-light
+              - type: image
+                entity: light.yeelink_mbulb3_004f_light
+                tap_action:
+                  action: none
+                style:
+                  pointer-events: none
+                  top: 63.5%
+                  left: 21%
+                  width: 36%
+                  mix_blend_mode: lighten
+                state_image:
+                  'off': /local/house/touming.png
+                  'on': /local/house/zhuwo.png
+              - type: state-icon
+                entity: light.yeelink_mbulb3_004f_light
+                style:
+                  top: 60%
+                  left: 15%
+                tap_action:
+                  action: toggle
+                icon: mdi:ceiling-light
+              - type: image
+                entity: light.yeelink_mbulb3_3884_light
+                tap_action:
+                  action: none
+                style:
+                  pointer-events: none
+                  top: 50%
+                  left: 50%
+                  width: 100%
+                  mix_blend_mode: lighten
+                state_image:
+                  'off': /local/house/touming.png
+                  'on': /local/house/ciwo001.png
+              - type: state-icon
+                entity: light.yeelink_mbulb3_3884_light
+                style:
+                  top: 67%
+                  left: 42%
+                tap_action:
+                  action: toggle
+                icon: mdi:ceiling-light-multiple
+              - type: image
+                entity: switch.zimi_dhkg01_9672_switch
+                tap_action:
+                  action: none
+                style:
+                  pointer-events: none
+                  top: 50%
+                  left: 50%
+                  width: 100%
+                  mix_blend_mode: lighten
+                state_image:
+                  'off': /local/house/touming.png
+                  'on': /local/house/keting.png
+              - type: state-icon
+                entity: switch.zimi_dhkg01_9672_switch
+                style:
+                  top: 70%
+                  left: 80%
+                tap_action:
+                  action: toggle
+                icon: mdi:chandelier
+              - type: image
+                entity: light.yeelink_mbulb3_38a7_light
+                tap_action:
+                  action: none
+                style:
+                  pointer-events: none
+                  top: 72%
+                  left: 59%
+                  width: 19%
+                  mix_blend_mode: lighten
+                state_image:
+                  'off': /local/house/touming.png
+                  'on': /local/house/shufang.png
+              - type: state-icon
+                entity: light.yeelink_mbulb3_38a7_light
+                style:
+                  top: 70%
+                  left: 55%
+                tap_action:
+                  action: toggle
+                icon: mdi:ceiling-light
+              - type: image
+                entity: switch.zimi_dhkg05_8bb0_middle_switch_service
+                tap_action:
+                  action: none
+                style:
+                  pointer-events: none
+                  top: 50%
+                  left: 50%
+                  width: 100%
+                  mix_blend_mode: lighten
+                state_image:
+                  'off': /local/house/touming.png
+                  'on': /local/house/zoulang.png
+              - type: state-icon
+                entity: switch.zimi_dhkg05_8bb0_middle_switch_service
+                style:
+                  top: 53%
+                  left: 55%
+                tap_action:
+                  action: toggle
+                icon: mdi:ceiling-light
+              - type: image
+                entity: switch.lumi_acn032_14bb_right_switch_service
+                tap_action:
+                  action: none
+                style:
+                  pointer-events: none
+                  top: 50%
+                  left: 50%
+                  width: 100%
+                  mix_blend_mode: lighten
+                state_image:
+                  'off': /local/house/touming.png
+                  'on': /local/house/weishengjian.png
+              - type: state-icon
+                entity: switch.lumi_acn032_14bb_right_switch_service
+                style:
+                  top: 45%
+                  left: 60%
+                tap_action:
+                  action: toggle
+                icon: mdi:ceiling-light
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: 亮灯
+                secondary: >-
+                  {{states.light | selectattr('state', 'eq', 'on') |
+                  selectattr('attributes.friendly_name', 'search', '灯') | list |
+                  count +
+
+                  states.switch | selectattr('state', 'eq', 'on') |
+                  selectattr('attributes.friendly_name', 'search', '灯') | list |
+                  count}}
+                icon: mdi:lightbulb
+                icon_color: yellow
+                tap_action:
+                  action: call-service
+                  service: xiaomi_miot.intelligent_speaker
+                  target: {}
+                  data:
+                    execute: true
+                    silent: true
+                    throw: true
+                    entity_id: media_player.xiaomi_l05c_009b_play_control
+                    text: 关闭所有灯
+              - type: custom:mushroom-template-card
+                primary: 空调
+                secondary: >-
+                  {{states.climate | rejectattr('state', 'eq', 'off') |
+                  rejectattr('state', 'eq', 'unavailable') | list | count  }}
+                icon: mdi:air-conditioner
+                icon_color: green
+                tap_action:
+                  action: call-service
+                  service: xiaomi_miot.intelligent_speaker
+                  target: {}
+                  data:
+                    execute: true
+                    silent: true
+                    throw: true
+                    entity_id: media_player.xiaomi_l05c_009b_play_control
+                    text: 关闭所有空调
+              - type: custom:mushroom-template-card
+                primary: 风扇
+                secondary: >-
+                  {{states.fan | selectattr('state', 'eq', 'on') |
+                  selectattr('attributes.friendly_name', 'search', '风扇') | list
+                  | count }}
+                icon: mdi:ceiling-fan
+                icon_color: blue
+                tap_action:
+                  action: call-service
+                  service: xiaomi_miot.intelligent_speaker
+                  target: {}
+                  data:
+                    execute: true
+                    entity_id: media_player.xiaomi_l05c_009b_play_control
+                    text: 关闭所有风扇
+                    silent: true
+                    throw: true
+          - square: false
+            type: grid
+            cards:
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: light.yeelink_mbulb3_38a7_light
+                    state: 'on'
+                card:
+                  type: custom:mushroom-chips-card
+                  chips:
+                    - type: light
+                      entity: light.yeelink_mbulb3_38a7_light
+                      content_info: name
+                      name: 书房
+                      use_light_color: true
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: switch.zimi_dhkg01_9672_switch
+                    state: 'on'
+                card:
+                  type: custom:mushroom-chips-card
+                  chips:
+                    - type: entity
+                      entity: switch.zimi_dhkg01_9672_switch
+                      icon_color: accent
+                      icon: mdi:lightbulb
+                      content_info: name
+                      use_entity_picture: true
+                      name: 客厅
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: switch.zimi_dhkg05_8bb0_middle_switch_service
+                    state: 'on'
+                card:
+                  type: custom:mushroom-chips-card
+                  chips:
+                    - type: entity
+                      entity: switch.zimi_dhkg05_8bb0_middle_switch_service
+                      icon_color: accent
+                      icon: mdi:lightbulb
+                      content_info: name
+                      use_entity_picture: true
+                      name: 走廊
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: switch.zimi_dhkg05_8bb0_right_switch_service
+                    state: 'on'
+                card:
+                  type: custom:mushroom-chips-card
+                  chips:
+                    - type: entity
+                      entity: switch.zimi_dhkg05_8bb0_right_switch_service
+                      icon_color: accent
+                      icon: mdi:lightbulb
+                      content_info: name
+                      use_entity_picture: true
+                      name: 卫生间
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: fan.dmaker_p9_431d_fan
+                    state: 'off'
+                card:
+                  type: custom:mushroom-chips-card
+                  chips:
+                    - type: entity
+                      entity: fan.dmaker_p9_431d_fan
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: light.hyd_znlyj5_e153_light
+                    state: 'on'
+                card:
+                  type: custom:mushroom-chips-card
+                  chips:
+                    - type: light
+                      entity: light.hyd_znlyj5_e153_light
+                      icon: mdi:hanger
+                      content_info: state
+                      use_light_color: false
+              - type: conditional
+                conditions:
+                  - condition: numeric_state
+                    entity: sensor.loock_s30_0629_battery_level
+                    above: 0
+                    below: 60
+                card:
+                  type: custom:mushroom-chips-card
+                  chips:
+                    - type: entity
+                      entity: sensor.loock_s30_0629_battery_level
+                      icon: mdi:door-closed-lock
+              - type: conditional
+                conditions:
+                  - condition: numeric_state
+                    entity: sensor.iphone_battery_level
+                    above: 0
+                    below: 30
+                card:
+                  type: custom:mushroom-chips-card
+                  chips:
+                    - type: entity
+                      entity: sensor.iphone_battery_level
+                      icon: mdi:cellphone
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: switch.zimi_dhkg05_8bb0_middle_switch_service
+                    state: ''
+                card:
+                  type: custom:mushroom-chips-card
+                  chips:
+                    - type: entity
+                      entity: switch.zimi_dhkg05_8bb0_middle_switch_service
+                      content_info: name
+                      icon_color: accent
+                      icon: mdi:alarm-light
+                      name: 走廊
+                      use_entity_picture: true
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: switch.zimi_dhkg05_8bb0_right_switch_service
+                    state: 'on'
+                card:
+                  type: custom:mushroom-chips-card
+                  chips:
+                    - type: entity
+                      entity: switch.zimi_dhkg05_8bb0_right_switch_service
+                      icon: mdi:light-flood-down
+                      content_info: name
+                      name: 卫生间
+                      use_entity_picture: true
+                      icon_color: accent
+            columns: 6
+          - type: media-control
+            entity: media_player.wo_jia_de_dian_shi
+          - type: custom:mushroom-media-player-card
+            entity: media_player.xiaomi_l05c_009b_play_control
+            media_controls:
+              - on_off
+              - shuffle
+              - previous
+              - play_pause_stop
+              - next
+              - repeat
+            volume_controls:
+              - volume_mute
+              - volume_set
+              - volume_buttons
+            use_media_info: true
+            show_volume_level: true
+            icon_type: icon
+            fill_container: true
+          - type: media-control
+            entity: media_player.xiaomi_l05c_009b_play_control
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: custom:mushroom-person-card
+                    entity: person.leoleo
+                    icon_type: entity-picture
+                    secondary_info: state
+                    icon: mdi:account
+                    fill_container: true
+                  - type: entities
+                    entities:
+                      - entity: zone.home
+                      - entity: sensor.iphone_battery_level
+                      - entity: sensor.iphone_steps
+                    footer:
+                      type: graph
+                      entity: sensor.iphone_battery_level
+              - type: entities
+                entities:
+                  - entity: sensor.loock_s30_0629_battery_level
+                    name: 鹿锁电量
+                  - entity: sensor.loock_s30_0629_lock
+                    name: 👋
+                  - entity: sensor.loock_s30_0629_lock_action
+                    name: 途径
+                  - entity: sensor.loock_s30_0629_timestamp
+                    name: 时间
+          - square: true
+            type: grid
+            cards:
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: more-info
+                show_state: true
+                icon: mdi:television
+                entity: media_player.miir_ir01_3170_ir_tv_control
+                name: 电视
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: toggle
+                entity: media_player.miir_ir01_6128_ir_projector_control
+                show_state: false
+                name: 坚果投影仪
+              - show_name: true
+                show_icon: true
+                show_state: true
+                entity: switch.minij_v8_f83c_switch_status
+                icon: mdi:washing-machine
+                name: 洗衣机
+                type: button
+                tap_action:
+                  action: navigate
+                  navigation_path: http://192.168.101.3:8123/dashboard-test/test?edit=1
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: xiaomi_miot.intelligent_speaker
+                  target: {}
+                  data:
+                    execute: true
+                    silent: true
+                    throw: true
+                    entity_id: media_player.xiaomi_l05c_009b_play_control
+                    text: 播放因为
+                entity: media_player.xiaomi_l05c_009b_play_control
+                show_state: true
+                name: 小爱同学
+            columns: 4
+          - square: false
+            type: grid
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.yeelink_mbulb3_004f_light
+                layout: horizontal
+                use_light_color: true
+                show_color_temp_control: true
+                collapsible_controls: true
+                show_color_control: true
+                show_brightness_control: true
+              - type: custom:mushroom-light-card
+                entity: light.yeelink_mbulb3_38a7_light
+                layout: horizontal
+                show_brightness_control: true
+                show_color_control: true
+                show_color_temp_control: true
+                use_light_color: true
+                collapsible_controls: true
+              - type: custom:mushroom-fan-card
+                entity: fan.dmaker_p9_431d_fan
+              - type: custom:mushroom-climate-card
+                entity: climate.miir_ir02_7712_ir_aircondition_control
+                hold_action:
+                  action: more-info
+              - type: custom:mushroom-climate-card
+                entity: climate.lumi_mcn02_0a06_air_conditioner
+                hold_action:
+                  action: more-info
+              - type: custom:mushroom-climate-card
+                entity: climate.lumi_mcn02_aee4_air_conditioner
+                hold_action:
+                  action: more-info
+            columns: 2
+  - title: 洗衣机页面
+    path: test
+    icon: mdi:washing-machine
+    subview: true
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - entity: button.minij_v8_f83c_start_wash
+            name: 开始洗衣
+          - entity: sensor.minij_v8_f83c_washer
+            name: 当前状态
+          - entity: switch.minij_v8_f83c_washer_status
+          - entity: select.minij_v8_f83c_mode
+            name: 选择模式
+          - entity: select.minij_v8_f83c_rinsh_times
+          - entity: select.minij_v8_f83c_drying_level
+            name: 干燥温度
+          - entity: select.minij_v8_f83c_spin_speed
+            name: 转速
+          - entity: select.minij_v8_f83c_target_temperature
+            name: 水温
+          - entity: select.minij_v8_f83c_target_water_level
+            name: 水位
+        title: 洗衣机
+        header:
+          type: picture
+          image: >-
+            https://www.home-assistant.io/images/lovelace/header-footer/balloons-header.png
+          tap_action:
+            action: none
+          hold_action:
+            action: none
+  - title: 空调
+    path: ''
+    icon: mdi:air-conditioner
+    subview: true
+    badges: []
+    cards: []
+  - icon: mdi:airballoon
+    subview: true
+    badges: []
+    cards: []
+  - title: 风扇
+    path: ''
+    icon: mdi:wind-power
+    subview: true
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - entity: fan.dmaker_p9_431d_fan
+          - entity: switch.dmaker_p9_431d_alarm_2
+          - entity: switch.dmaker_p9_431d_alarm
+          - entity: switch.dmaker_p9_431d_horizontal_swing
+          - entity: select.dmaker_p9_431d_horizontal_angle
+            name: 旋转角度
+          - entity: number.dmaker_p9_431d_power_off_delay_time
+            name: 定时关闭
+          - entity: light.dmaker_p9_431d_indicator_light
+          - entity: switch.dmaker_p9_431d_physical_control_locked
+title: Liao‘s Home
