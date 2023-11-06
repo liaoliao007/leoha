@@ -45,12 +45,6 @@ views:
           - type: picture-elements
             image: /local/house/wansh-0.png
             elements:
-              - type: state-badge
-                entity: sensor.liaoliaode_jia_gan_jue_wen_du
-                title: 室内温度
-                style:
-                  top: 15%
-                  left: 7%
               - type: image
                 entity: light.hyd_znlyj5_e153_light
                 tap_action:
@@ -396,8 +390,6 @@ views:
                       use_entity_picture: true
                       icon_color: accent
             columns: 6
-          - type: media-control
-            entity: media_player.wo_jia_de_dian_shi
           - type: custom:mushroom-media-player-card
             entity: media_player.xiaomi_l05c_009b_play_control
             media_controls:
@@ -515,6 +507,11 @@ views:
                 collapsible_controls: true
               - type: custom:mushroom-fan-card
                 entity: fan.dmaker_p9_431d_fan
+                icon_animation: true
+                show_percentage_control: true
+                layout: horizontal
+                show_oscillate_control: true
+                collapsible_controls: true
               - type: custom:mushroom-climate-card
                 entity: climate.miir_ir02_7712_ir_aircondition_control
                 hold_action:
@@ -527,7 +524,7 @@ views:
                 entity: climate.lumi_mcn02_aee4_air_conditioner
                 hold_action:
                   action: more-info
-            columns: 2
+            columns: 1
   - title: 洗衣机页面
     path: test
     icon: mdi:washing-machine
