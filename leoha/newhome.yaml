@@ -1,5 +1,3 @@
-kiosk_mode:
-  hide_sidebar: true
 views:
   - title: Home
     theme: ios-dark-mode-dark-blue
@@ -10,29 +8,306 @@ views:
         cards:
           - type: iframe
             url: /local/clock/index.html
-            aspect_ratio: 44%
+            aspect_ratio: 50%
           - type: entity
             entity: sensor.mi_2186809020_message
             state_color: true
             name: 消息
-          - type: custom:mushroom-template-card
-            primary: |2-
-               {{ state_attr('weather.wo_de_jia', 'forecast_hourly') }}
+          - type: custom:vertical-stack-in-card
+            layout_type: masonry
+            layout: {}
+            cards:
+              - type: custom:mushroom-template-card
+                multiline_secondary: true
+                primary: >-
+                  当前温度 {{ states('sensor.wo_de_jia_wen_du')  }} ℃， 湿度 {{
+                  states('sensor.wo_de_jia_shi_du')  }}%
+                secondary: |-
+                  {{ state_attr('weather.wo_de_jia', 'forecast_hourly') }}
+                  {{ state_attr('weather.wo_de_jia', 'forecast_minutely') }}
+                entity_forecast_minutely: weather.wo_de_jia
+                picture: |
+                  {% if is_state('weather.wo_de_jia', 'clear-night') %}
+                    /local/png/md-lite/clearnight.png
+                  {% elif is_state('weather.wo_de_jia', 'cloudy') %}
+                    /local/png2/weather/ikon/cloudy2.png
+                  {% elif is_state('weather.wo_de_jia', 'exceptional') %}
+                    /local/png/md-lite/exceptional.png
+                  {% elif is_state('weather.wo_de_jia', 'fog') %}
+                    /local/png2/weather/ikon/fogy2.ico
+                  {% elif is_state('weather.wo_de_jia', 'hail') %}
+                    /local/png/md-lite/hail2.png
+                  {% elif is_state('weather.wo_de_jia', 'lightning') %}
+                    /local/png/md-lite/lightning.png
+                  {% elif is_state('weather.wo_de_jia', 'lightning-rainy') %}
+                    /local/png/md-lite/lightning-rainy.png
+                  {% elif is_state('weather.wo_de_jia', 'partlycloudy') %}
+                    /local/png2/weather/ikon/cloudy2.png
+                  {% elif is_state('weather.wo_de_jia', 'pouring') %}
+                    /local/png/md-lite/pouring.png
+                  {% elif is_state('weather.wo_de_jia', 'rainy') %}
+                    /local/png/md-lite/rainy.png
+                  {% elif is_state('weather.wo_de_jia', 'snowy') %}
+                    /local/png/md-lite/snow.png
+                  {% elif is_state('weather.wo_de_jia', 'snowy-rainy') %}
+                    /local/png/md-lite/snowy-rainy.png
+                  {% elif is_state('weather.wo_de_jia', 'sunny') %}
+                    /local/png/md-lite/sunny2.png
+                  {% elif is_state('weather.wo_de_jia', 'windy') %}
+                    /local/png/md-lite/windy.png
+                  {% elif is_state('weather.wo_de_jia', 'windy-variant') %}
+                    /local/png/md-lite/windy.png
+                  {% else %}
+                    /local/png/md-lite/futbol.png
+                  {% endif %}
+                card_mod:
+                  style: |
+                    :host([dark-mode]) {
+                      background: rgba(var(--rgb-primary-background-color), 0.9);
+                      --card-primary-font-size: 16px;
+                      --card-secondary-font-size: 13px
+                      box-shadow: 20px;
+                    }
+                    :host {
+                      background: rgba(var(--rgb-primary-background-color), 0.9);
+                      --mush-icon-size: 53px;
+                      height: 76px;
+                      margin-left: 0px !important;
+                      margin-bottom: 0px !important;
+                      box-shadow: 20px;
+                    }
+                    ha-card {
+                      background-color: rgba(120, 100, 159, 0.85);
+                      box-shadow: none;
+                      --secondary-text-color: rgb(var(--rgb-amber));
+                      margin-bottom: 0px;
+                    }
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - card_config_version: 8
+                    entity_apparent_temp: sensor.wo_de_jia_gan_jue_wen_du
+                    entity_update_time: sensor.date_time
+                    entity_forecast_icon: weather.wo_de_jia
+                    entity_forecast_icon_1: weather.wo_de_jia
+                    entity_forecast_max: weather.wo_de_jia
+                    entity_forecast_max_1: weather.wo_de_jia
+                    entity_forecast_min: weather.wo_de_jia
+                    entity_forecast_min_1: weather.wo_de_jia
+                    entity_humidity: sensor.wo_de_jia_shi_du
+                    entity_pop: weather.wo_de_jia
+                    entity_pos: weather.wo_de_jia
+                    entity_pos_1: weather.wo_de_jia
+                    entity_pressure: sensor.wo_de_jia_qi_ya
+                    entity_summary_1: weather.wo_de_jia
+                    entity_sun: sun.sun
+                    entity_temperature: sensor.wo_de_jia_wen_du
+                    entity_visibility: weather.wo_de_jia
+                    entity_wind_bearing: sensor.wo_de_jia_shu_gua_zhi_shu
+                    entity_wind_speed: sensor.wo_de_jia_feng_su
+                    extended_name_attr: unit_of_measurement
+                    extended_use_attr: true
+                    option_static_icons: true
+                    section_order:
+                      - overview
+                      - extended
+                      - slots
+                      - daily_forecast
+                    show_section_daily_forecast: true
+                    show_section_extended: true
+                    show_section_overview: true
+                    show_section_slots: true
+                    slot_l1: forecast_max
+                    slot_l2: forecast_min
+                    slot_l3: wind
+                    slot_l4: pressure
+                    slot_l5: sun_next
+                    slot_l6: remove
+                    slot_l7: remove
+                    slot_l8: remove
+                    slot_r1: popforecast
+                    slot_r2: humidity
+                    slot_r3: possible_today
+                    slot_r4: visibility
+                    slot_r5: sun_following
+                    slot_r6: remove
+                    slot_r7: remove
+                    slot_r8: remove
+                    text_card_title: null
+                    type: custom:platinum-weather-card
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: rgba(var(--rgb-primary-background-color), 0.1);
+                          --paper-item-icon-active-color: #2196f3;
+                          --paper-item-icon-color: #6f6f6f;
+                          border-radius: 0px !important;
+                        }
+                card_mod:
+                  style: |
+                    ha-card {
 
-            secondary: |2-
-               {{ state_attr('weather.wo_de_jia', 'forecast_minutely') }}
-
-            icon: mdi:weather-cloudy
-          - type: custom:weather-card
-            entity: weather.wo_de_jia
-            details: true
-            current: true
-            forecast: true
-            hourly_forecast: false
+                     {% if is_state('weather.wo_de_jia',
+                    'cloudy')  %}
+                      background:  url( '/local/png2/weather/cloudy.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia', 'clear-night')
+                    %}
+                      background:  url( '/local/png2/weather/clear-night3.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia', 'exceptional')
+                    %}
+                      background:  url( '/local/png/md-lite/exceptional.png' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia', 'fog')  %}
+                      background:  url( '/local/png2/weather/fog3.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia', 'hail')  %}
+                      background:  url( '/local/png2/weather/hail2.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia',  'lightning')
+                    %}
+                      background:  url( '/local/png2/weather/lightning3.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia',
+                    'lightning-rainy')  %}
+                      background:  url( '/local/png/md-lite/lightning-rainy.png' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia',
+                    'partlycloudy')  %}
+                      background:  url( '/local/png2/weather/partly-cloudy.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia', 'pouring')  %}
+                      background:  url( '/local/png2/weather/pouring.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia', 'rainy')  %}
+                      background:  url( '/local/png2/weather/rainy.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia', 'snowy')  %}
+                      background:  url( '/local/png2/weather/snowy.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia', 'snowy-rainy')
+                    %}
+                      background:  url( '/local/png2/weather/snowy-rainy.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia', 'sunny')  %}
+                      background:  url( '/local/png2/weather/sunny.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia', 'windy')  %}
+                      background:  url( '/local/png2/weather/windy.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                    {% elif is_state('weather.wo_de_jia',
+                    'windy-variant')  %}
+                      background:  url( '/local/png2/weather/windy.gif' ) no-repeat center 0px;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      background-color: rgba(var(--rgb-card-background-color), 0.7);
+                      background-blend-mode: overlay;
+                      position: relative;
+                      border-radius: 0px !important;
+                     {% else %}
+                      background: rgba(var(--rgb-primary-text-color), 0.065);
+                      border-radius: 0px !important;
+                    {% endif %}
+                      margin-top: 0px;
+                      margin-left: auto;
+                      margin-right: auto;
+                      margin-bottom: 0px;
+                      }
+            style: ''
+            '--popup-background-color': black;
+            '--popup-border-radius': 20px;
+            '--popup-padding-x': 0px;
+            '--popup-padding-y': 0px;
+            right_button: Kapat
           - type: iframe
             url: >-
-              https://embed.windy.com/embed2.html?lat=24.378&lon=109.439&detailLat=24.378&detailLon=109.439&width=650&height=450&zoom=11&level=surface&overlay=wind&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1
-            aspect_ratio: 80%
+              https://embed.windy.com/embed2.html?lat=24.301&lon=109.435&detailLat=24.358&detailLon=109.435&width=650&height=450&zoom=11&level=surface&overlay=wind&product=ecmwf&menu=&message=&marker=true&calendar=now&pressure=true&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1
+            aspect_ratio: 100%
       - type: vertical-stack
         cards:
           - type: picture-elements
@@ -209,6 +484,7 @@ views:
                     throw: true
                     entity_id: media_player.xiaomi_l05c_009b_play_control
                     text: 关闭所有灯
+                badge_color: ''
               - type: custom:mushroom-template-card
                 primary: 空调
                 secondary: >-
@@ -382,37 +658,76 @@ views:
                       content_info: name
                       name: 主卧
             columns: 6
-          - type: horizontal-stack
-            cards:
-              - type: custom:mini-graph-card
-                entities:
-                  - entity: sensor.wo_de_jia_shi_du
-                    name: 湿度
-                    show_state: true
-              - type: custom:mini-graph-card
-                entities:
-                  - entity: sensor.wo_de_jia_yu_liang
-                    name: 降雨量
-                    show_state: true
-              - type: custom:mini-graph-card
-                entities:
-                  - entity: sensor.wo_de_jia_zi_wai_xian
-                    name: 紫外线
-                    show_state: true
           - type: media-control
             entity: media_player.xiaomi_l05c_009b_play_control
+            theme: ios-dark-mode-blue-red
+          - type: media-control
+            entity: media_player.yun_yin_le_c949e1af_5a8e8d82
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: 我的收藏
+                secondary: ''
+                icon: mdi:harddisk
+                tap_action:
+                  action: call-service
+                  service: media_player.play_media
+                  target:
+                    device_id: 0c88f7d26a181b09bdc10dd60c7c7cbc
+                  data:
+                    media_content_id: cloudmusic://163/my/ilike
+                    media_content_type: music
+                badge_color: yellow
+                icon_color: yellow
+              - type: custom:mushroom-template-card
+                primary: 每日推荐
+                secondary: ''
+                icon: mdi:music-circle
+                tap_action:
+                  action: call-service
+                  service: media_player.play_media
+                  target:
+                    device_id: 0c88f7d26a181b09bdc10dd60c7c7cbc
+                  data:
+                    media_content_id: cloudmusic://163/my/daily
+                    media_content_type: music
+                icon_color: green
+                badge_color: ''
+          - type: custom:hourly-weather
+            entity: weather.wo_de_jia
+            label_spacing: '1'
+            num_segments: '5'
       - type: vertical-stack
         cards:
+          - type: grid
+            square: true
+            columns: 3
+            cards:
+              - show_state: true
+                show_name: true
+                camera_view: auto
+                type: picture-entity
+                entity: person.leoleo
+                aspect_ratio: '1'
+                image: /api/image/serve/c8f913a3a3eba60cfff85b7a82716faa/512x512
+              - show_state: true
+                show_name: true
+                camera_view: auto
+                type: picture-entity
+                entity: person.peng_yu_yan
+                aspect_ratio: '1'
+                image: /api/image/serve/e1b8e7456816c95b14537f9185d6d49e/512x512
+              - show_state: true
+                show_name: true
+                camera_view: auto
+                type: picture-entity
+                entity: person.nu_wang
+                aspect_ratio: '1'
+                image: /api/image/serve/94230ed5a6dc252ecab66fc567136bec/512x512
           - type: horizontal-stack
             cards:
               - type: vertical-stack
                 cards:
-                  - type: custom:mushroom-person-card
-                    entity: person.leoleo
-                    icon_type: entity-picture
-                    secondary_info: state
-                    icon: mdi:account
-                    fill_container: true
                   - type: entities
                     entities:
                       - entity: zone.home
@@ -521,14 +836,6 @@ views:
                 show_color_control: true
                 show_brightness_control: true
                 icon_color: primary
-              - type: custom:mushroom-light-card
-                entity: light.yeelink_mbulb3_38a7_light
-                layout: horizontal
-                show_brightness_control: true
-                show_color_control: true
-                show_color_temp_control: true
-                use_light_color: true
-                collapsible_controls: true
               - type: custom:mushroom-fan-card
                 entity: fan.dmaker_p9_431d_fan
                 icon_animation: true
@@ -548,6 +855,21 @@ views:
                 entity: climate.lumi_mcn02_aee4_air_conditioner
                 hold_action:
                   action: more-info
+              - type: custom:mushroom-light-card
+                entity: light.yeelink_mbulb3_38a7_light
+                layout: horizontal
+                show_brightness_control: true
+                show_color_control: true
+                show_color_temp_control: true
+                use_light_color: true
+                collapsible_controls: true
+              - features:
+                  - type: cover-open-close
+                type: tile
+                entity: cover.hyd_znlyj5_e153_airer
+                icon: mdi:window-shutter
+                color: primary
+                vertical: false
             columns: 1
   - title: 洗衣机页面
     path: test
@@ -583,4 +905,2241 @@ views:
             action: none
           hold_action:
             action: none
+  - title: 大户型图
+    path: xxx
+    type: panel
+    icon: mdi:greenhouse
+    badges: []
+    cards:
+      - type: picture-elements
+        image: /local/phone/myhome001.png
+        elements:
+          - type: image
+            entity: light.hyd_znlyj5_e153_light
+            tap_action:
+              action: none
+            style:
+              pointer-events: none
+              top: 50%
+              left: 50.5%
+              width: 100%
+              mix_blend_mode: lighten
+            state_image:
+              'off': /local/house/touming.png
+              'on': /local/phone/yangtai.png
+          - type: state-icon
+            entity: light.hyd_znlyj5_e153_light
+            style:
+              top: 27%
+              left: 65%
+            tap_action:
+              action: toggle
+            icon: mdi:ceiling-light
+          - type: image
+            entity: light.yeelink_mbulb3_004f_light
+            tap_action:
+              action: none
+            style:
+              pointer-events: none
+              top: 50%
+              left: 50.5%
+              width: 100%
+              mix_blend_mode: lighten
+            state_image:
+              'off': /local/house/touming.png
+              'on': /local/phone/zhuwo.png
+          - type: state-icon
+            entity: light.yeelink_mbulb3_004f_light
+            style:
+              top: 60%
+              left: 35%
+            tap_action:
+              action: toggle
+            icon: mdi:ceiling-light
+          - type: image
+            entity: light.yeelink_mbulb3_3884_light
+            tap_action:
+              action: none
+            style:
+              pointer-events: none
+              top: 50%
+              left: 50.5%
+              width: 100%
+              mix_blend_mode: lighten
+            state_image:
+              'off': /local/house/touming.png
+              'on': /local/phone/ciwo.png
+          - type: state-icon
+            entity: light.yeelink_mbulb3_3884_light
+            style:
+              top: 67%
+              left: 52%
+            tap_action:
+              action: toggle
+            icon: mdi:ceiling-light-multiple
+          - type: image
+            entity: switch.zimi_dhkg01_9672_switch
+            tap_action:
+              action: none
+            style:
+              pointer-events: none
+              top: 50%
+              left: 50.5%
+              width: 100%
+              mix_blend_mode: lighten
+            state_image:
+              'off': /local/house/touming.png
+              'on': /local/phone/keting.png
+          - type: state-icon
+            entity: switch.zimi_dhkg01_9672_switch
+            style:
+              top: 70%
+              left: 80%
+            tap_action:
+              action: toggle
+            icon: mdi:chandelier
+          - type: image
+            entity: light.yeelink_mbulb3_38a7_light
+            tap_action:
+              action: none
+            style:
+              pointer-events: none
+              top: 50%
+              left: 50.5%
+              width: 100%
+              mix_blend_mode: lighten
+            state_image:
+              'off': /local/house/touming.png
+              'on': /local/phone/shufang.png
+          - type: state-icon
+            entity: light.yeelink_mbulb3_38a7_light
+            style:
+              top: 70%
+              left: 65%
+            tap_action:
+              action: toggle
+            icon: mdi:ceiling-light
+          - type: image
+            entity: switch.zimi_dhkg05_8bb0_middle_switch_service
+            tap_action:
+              action: none
+            style:
+              pointer-events: none
+              top: 50%
+              left: 50.5%
+              width: 100%
+              mix_blend_mode: lighten
+            state_image:
+              'off': /local/house/touming.png
+              'on': /local/phone/zoulang.png
+          - type: state-icon
+            entity: switch.zimi_dhkg05_8bb0_middle_switch_service
+            style:
+              top: 53%
+              left: 60%
+            tap_action:
+              action: toggle
+            icon: mdi:ceiling-light
+          - type: image
+            entity: switch.zimi_dhkg05_8bb0_right_switch_service
+            tap_action:
+              action: none
+            style:
+              pointer-events: none
+              top: 50%
+              left: 50.5%
+              width: 100%
+              mix_blend_mode: lighten
+            state_image:
+              'off': /local/house/touming.png
+              'on': /local/phone/weishengjian.png
+          - type: state-icon
+            entity: switch.zimi_dhkg05_8bb0_right_switch_service
+            style:
+              top: 42%
+              left: 65%
+            tap_action:
+              action: toggle
+            icon: mdi:ceiling-light
+  - title: 土鸡大神
+    path: mmns
+    theme: ios-light-mode-blue-red
+    badges: []
+    cards:
+      - type: custom:stack-in-card
+        layout_type: masonry
+        layout: {}
+        cards:
+          - type: custom:layout-card
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: markdown
+                    content: Hava Durumu....
+                    card_mod:
+                      style: |
+                        ha-markdown {
+                          padding: 45px 50px 2px 10px !important;
+                          font-size: 25px !important;
+                          font-weight: normal !important;
+                          line-height: 1.2 !important;
+                        }
+                        ha-card {
+                          background: transparent;
+                          color: #e1e1e1;
+                          box-shadow: 0px 0px;
+                          width: 300px;
+                          margin-top: 100px;
+                          margin-left: 0px;
+                          margin-right: 0px;
+                          margin-bottom: 0px;
+                          padding: 15
+                        }
+                  - type: custom:button-card
+                    color_type: blank-card
+                    styles:
+                      card:
+                        - width: 100px
+                  - type: picture-entity
+                    entity: weather.wo_de_jia
+                    show_state: false
+                    show_name: false
+                    state_image:
+                      clear-night: /local/png2/weather/ikon/clearnight.png
+                      cloudy: /local/png2/weather/ikon/cloudy2.png
+                      partlycloudy: /local/png2/weather/ikon/cloudy2.png
+                      exceptional: /local/png2/weather/ikon/exceptional.png
+                      fog: /local/png2/weather/ikon/fogy2.ico
+                      hail: /local/png2/weather/ikon/hail2.png
+                      lightning: /local/png2/weather/ikon/lightning.png
+                      lightning-rainy: /local/png2/weather/ikon/lightning-rainy.png
+                      pouring: /local/png2/weather/ikon/pouring.png
+                      rainy: /local/png2/weather/ikon/rainy.png
+                      snowy: /local/png2/weather/ikon/snow.png
+                      snowy-rainy: /local/png2/weather/ikon/snowy-rainy.png
+                      sunny: /local/png2/weather/ikon/sunny2.png
+                      windy: /local/png2/weather/ikon/windy.png
+                      windy-variant: /local/png2/weather/ikon/windy.png
+                    tap_action:
+                      action: navigate
+                      navigation_path: home
+                    double_tap_action:
+                      action: toggle
+                    hold_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        :host {
+                          --ha-card-background: none;
+                        }
+                        ha-card {
+                          box-shadow: 0px 0px;
+                          background: none;
+                          margin-top: 40px;
+                          margin-left: 10px;
+                          margin-right: 10px;
+                          margin-bottom: 0px;
+                          padding: 15
+                          width: auto;
+                        }
+                    alignment: end
+          - type: custom:mushroom-template-card
+            primary: 天气信息
+            secondary: >-
+              感觉温度 {{ states('sensor.wo_de_jia_gan_jue_wen_du')  }}摄氏度,  湿度 {{
+              states('sensor.wo_de_jia_shi_du')  }}%
+            picture: /local/png2/weather/ikon/cloudy2.png
+            card_mod:
+              style: |
+                :host([dark-mode]) {
+                  background: rgba(var(--rgb-primary-background-color), 0.2);
+                  --card-primary-font-size: 16px;
+                  --card-secondary-font-size: 13px
+                }
+                :host {
+                  background: rgba(var(--rgb-primary-background-color), 0.2);
+                  --mush-icon-size: 53px;
+                  height: 76px;
+                  margin-left: 0px !important;
+                  margin-bottom: 0px !important;
+                }
+          - type: custom:stack-in-card
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: grid
+                    columns: 1
+                    square: false
+                    cards:
+                      - type: vertical-stack
+                        cards:
+                          - type: picture-entity
+                            entity: weather.wo_de_jia
+                            show_state: true
+                            show_name: false
+                            state_image:
+                              clear-night: /local/png2/weather/clear-night3.gif
+                              cloudy: /local/png2/weather/cloudy.gif
+                              exceptional: /local/png2/weather/exceptional.png
+                              fog: /local/png2/weather/fog3.gif
+                              hail: /local/png2/weather/hail2.gif
+                              lightning: /local/png2/weather/lightning3.gif
+                              lightning-rainy: /local/png2/weather/lightning-rainy.jpeg
+                              partlycloudy: /local/png2/weather/partly-cloudy.gif
+                              pouring: /local/png2/weather/pouring.gif
+                              rainy: /local/png2/weather/rainy.gif
+                              snowy: /local/png2/weather/snowy.gif
+                              snowy-rainy: /local/png2/weather/snowy-rainy.gif
+                              sunny: /local/png2/weather/sunny.gif
+                              windy: /local/png2/weather/windy.gif
+                              windy-variant: /local/png2/weather/windy.gif
+                            tap_action:
+                              action: navigate
+                              navigation_path: home
+                            hold_action:
+                              action: none
+                            theme: Mushroom
+                            card_mod:
+                              style: |
+                                :host {
+                                  background: #0a0a0a;
+                                }
+                                    ha-card {
+                                      background:#0a0a0a;
+                                      margin-top: auto;
+                                      margin-left: 0px;
+                                      margin-right: 0px;
+                                      margin-bottom: 5px;
+                                      padding: 15px;
+                                      width: auto;
+                                    }
+          - type: custom:weather-card
+            entity: weather.wo_de_jia
+            houer_forecast: false
+            show_forecast: true
+            name: ''
+            secondary_info_attribute: temperature
+            hourly_forecast: false
+            forecast: true
+            details: true
+            current: true
+            card_mod:
+              style: |
+                ha-card {
+                  background: rgba(var(--rgb-primary-background-color), 0.1);
+                  --paper-item-icon-active-color: #2196f3;
+                  --paper-item-icon-color: #6f6f6f;
+                }
+        card_mod:
+          style: |
+            ha-card {
+              background: rgba(var(--rgb-primary-background-color), 0.5);
+              margin-top: -12px;
+              box-shadow: none;
+            }
+  - title: football
+    path: football
+    badges: []
+    cards:
+      - type: custom:stack-in-card
+        layout_type: masonry
+        layout: {}
+        cards:
+          - type: custom:layout-card
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: markdown
+                    content: Futbol....
+                    card_mod:
+                      style: |
+                        ha-markdown {
+                          padding: 45px 50px 2px 10px !important;
+                          font-size: 25px !important;
+                          font-weight: normal !important;
+                          line-height: 1.2 !important;
+                        }
+                        ha-card {
+                          background: transparent;
+                          color: #e1e1e1;
+                          box-shadow: 0px 0px;
+                          width: 300px;
+                          margin-top: 100px;
+                          margin-left: 0px;
+                          margin-right: 0px;
+                          margin-bottom: 0px;
+                          padding: 15
+                        }
+                  - type: custom:button-card
+                    color_type: blank-card
+                    styles:
+                      card:
+                        - width: 100px
+                  - type: conditional
+                    conditions:
+                      - entity: input_boolean.manlian
+                        state: 'on'
+                    card:
+                      type: picture-entity
+                      entity: input_boolean.manlian
+                      show_state: false
+                      show_name: false
+                      image: /local/png/manlian.png
+                      tap_action:
+                        action: navigate
+                        navigation_path: home
+                      double_tap_action:
+                        action: none
+                      hold_action:
+                        action: none
+                      theme: Mushroom
+                      card_mod:
+                        style: |
+                          :host {
+                            --ha-card-background: none;
+                          }
+                          ha-card {
+                            box-shadow: 0px 0px;
+                            background: none;
+                            margin-top: 40px;
+                            margin-left: 10px;
+                            margin-right: 10px;
+                            margin-bottom: 0px;
+                            padding: 15
+                            width: auto;
+                          }
+                      alignment: end
+                  - type: conditional
+                    conditions:
+                      - entity: input_boolean.asenna
+                        state: 'on'
+                    card:
+                      type: picture-entity
+                      entity: input_boolean.asenna
+                      show_state: false
+                      show_name: false
+                      image: /local/icons/asenna.png
+                      tap_action:
+                        action: navigate
+                        navigation_path: home
+                      double_tap_action:
+                        action: none
+                      hold_action:
+                        action: none
+                      theme: Mushroom
+                      card_mod:
+                        style: |
+                          :host {
+                            --ha-card-background: none;
+                          }
+                          ha-card {
+                            box-shadow: 0px 0px;
+                            background: none;
+                            margin-top: 40px;
+                            margin-left: 10px;
+                            margin-right: 10px;
+                            margin-bottom: 0px;
+                            padding: 15
+                            width: auto;
+                          }
+                      alignment: end
+                  - type: conditional
+                    conditions:
+                      - entity: input_boolean.huangma
+                        state: 'on'
+                    card:
+                      type: picture-entity
+                      entity: input_boolean.huangma
+                      show_state: false
+                      show_name: false
+                      image: /local/png/huangma.png
+                      tap_action:
+                        action: navigate
+                        navigation_path: home
+                      double_tap_action:
+                        action: none
+                      hold_action:
+                        action: none
+                      theme: Mushroom
+                      card_mod:
+                        style: |
+                          :host {
+                            --ha-card-background: none;
+                          }
+                          ha-card {
+                            box-shadow: 0px 0px;
+                            background: none;
+                            margin-top: 40px;
+                            margin-left: 10px;
+                            margin-right: 10px;
+                            margin-bottom: 0px;
+                            padding: 15
+                            width: auto;
+                          }
+                      alignment: end
+                  - type: conditional
+                    conditions:
+                      - entity: input_boolean.qieerxi
+                        state: 'on'
+                    card:
+                      type: picture-entity
+                      entity: input_boolean.qieerxi
+                      show_state: false
+                      show_name: false
+                      image: /local/png/qieerxi.png
+                      tap_action:
+                        action: navigate
+                        navigation_path: home
+                      double_tap_action:
+                        action: none
+                      hold_action:
+                        action: none
+                      theme: Mushroom
+                      card_mod:
+                        style: |
+                          :host {
+                            --ha-card-background: none;
+                          }
+                          ha-card {
+                            box-shadow: 0px 0px;
+                            background: none;
+                            margin-top: 40px;
+                            margin-left: 10px;
+                            margin-right: 10px;
+                            margin-bottom: 0px;
+                            padding: 15
+                            width: auto;
+                          }
+                      alignment: end
+                  - type: conditional
+                    conditions:
+                      - entity: input_boolean.qieerxi
+                        state: 'off'
+                      - entity: input_boolean.asenna
+                        state: 'off'
+                      - entity: input_boolean.huangma
+                        state: 'off'
+                      - entity: input_boolean.manlian
+                        state: 'off'
+                    card:
+                      type: picture-entity
+                      entity: input_boolean.news_chip_maradona
+                      show_state: false
+                      show_name: false
+                      image: /local/png/football.png
+                      tap_action:
+                        action: navigate
+                        navigation_path: home
+                      double_tap_action:
+                        action: none
+                      hold_action:
+                        action: none
+                      theme: Mushroom
+                      card_mod:
+                        style: |
+                          :host {
+                            --ha-card-background: none;
+                          }
+                          ha-card {
+                            box-shadow: 0px 0px;
+                            background: none;
+                            margin-top: 40px;
+                            margin-left: 10px;
+                            margin-right: 10px;
+                            margin-bottom: 0px;
+                            padding: 15
+                            width: auto;
+                          }
+                      alignment: end
+          - type: custom:layout-card
+            cards:
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: template
+                    icon: mdi:palette
+                    content: 曼联
+                    icon_color: amber
+                    picture: /local/png/manlian.png
+                    tap_action:
+                      action: call-service
+                      service: input_boolean.turn_on
+                      data: {}
+                      target:
+                        entity_id: input_boolean.news_chip_besiktas
+                    entity: input_boolean.news_chip_besiktas
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: none;
+                          {{ 'filter: grayscale(100%);' if is_state('input_boolean.news_chip_besiktas', 'off') }}
+                        }
+                        :host {
+                          --ha-card-background: rgba(var(--rgb-primary-text-color), 0.025);
+                          --primary-text-color:  {{ 'rgb(var(--rgb-amber))' if not is_state('input_boolean.news_chip_besiktas', 'off') else 'rgb(var(--rgb-white))' }};
+                        }
+                  - type: template
+                    icon: mdi:palette
+                    content: 阿森纳
+                    icon_color: amber
+                    picture: /local/png/asenna.png
+                    tap_action:
+                      action: call-service
+                      service: input_boolean.turn_on
+                      data: {}
+                      target:
+                        entity_id: input_boolean.news_chip_fenerbahce
+                    entity: input_boolean.news_chip_fenerbahce
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: none;
+                          {{ 'filter: grayscale(100%);' if is_state('input_boolean.news_chip_fenerbahce', 'off') }}
+                        }
+                        :host {
+                          --ha-card-background: rgba(var(--rgb-primary-text-color), 0.025);
+                          --primary-text-color:  {{ 'rgb(var(--rgb-amber))' if not is_state('input_boolean.news_chip_fenerbahce', 'off') else 'rgb(var(--rgb-white))' }};
+                        }
+                  - type: template
+                    icon: mdi:palette
+                    content: 皇马
+                    icon_color: amber
+                    picture: /local/png/huangma.png
+                    tap_action:
+                      action: call-service
+                      service: input_boolean.turn_on
+                      data: {}
+                      target:
+                        entity_id: input_boolean.news_chip_galatasaray
+                    entity: input_boolean.news_chip_galatasaray
+                    card_mod:
+                      style: |
+                        ha-card {
+                          {{ 'filter: grayscale(100%);' if is_state('input_boolean.news_chip_galatasaray', 'off') }}
+                        }
+                        :host {
+                          --ha-card-background: rgba(var(--rgb-primary-text-color), 0.025);
+                          --primary-text-color:  {{ 'rgb(var(--rgb-amber))' if not is_state('input_boolean.news_chip_galatasaray', 'off') else 'rgb(var(--rgb-white))' }};
+                        }
+                  - type: template
+                    icon: mdi:palette
+                    content: 切尔西
+                    icon_color: amber
+                    picture: local/png/qieerxi.png
+                    tap_action:
+                      action: call-service
+                      service: input_boolean.turn_on
+                      data: {}
+                      target:
+                        entity_id: input_boolean.news_chip_trabzonspor
+                    entity: input_boolean.news_chip_trabzonspor
+                    card_mod:
+                      style: |
+                        ha-card {
+                          {{ 'filter: grayscale(100%);' if is_state('input_boolean.news_chip_trabzonspor', 'off') }}
+                        }
+                        :host {
+                          --ha-card-background: rgba(var(--rgb-primary-text-color), 0.025);
+                          --primary-text-color:  {{ 'rgb(var(--rgb-amber))' if not is_state('input_boolean.news_chip_trabzonspor', 'off') else 'rgb(var(--rgb-white))' }};
+                        }
+                  - type: template
+                    icon: mdi:palette
+                    content: 英超比赛
+                    icon_color: amber
+                    picture: local/png/football.png
+                    tap_action:
+                      action: call-service
+                      service: input_boolean.turn_on
+                      data: {}
+                      target:
+                        entity_id: input_boolean.news_chip_haber
+                    entity: input_boolean.news_chip_haber
+                    card_mod:
+                      style: |
+                        ha-card {
+                          {{ 'filter: grayscale(100%);' if is_state('input_boolean.news_chip_haber', 'off') }}
+                        }
+                        :host {
+                          --ha-card-background: rgba(var(--rgb-primary-text-color), 0.025);
+                          --primary-text-color:  {{ 'rgb(var(--rgb-amber))' if not is_state('input_boolean.news_chip_haber', 'off') else 'rgb(var(--rgb-white))' }};
+                        }
+                alignment: center
+                card_mod:
+                  style: |
+                    ha-card {
+                      --chip-icon-size: 22px;
+                      --chip-box-shadow: none;
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.025);
+                      --chip-spacing: 0px;
+                      --chip-padding: 10px;
+                      margin-left: auto;
+                    }
+          - type: conditional
+            conditions:
+              - entity: input_boolean.news_chip_haber
+                state: 'on'
+            card:
+              type: custom:stack-in-card
+              layout_type: masonry
+              layout: {}
+              cards:
+                - type: grid
+                  columns: 1
+                  square: false
+                  cards:
+                    - type: vertical-stack
+                      cards:
+                        - type: custom:list-card
+                          entity: sensor.genelfutbol1
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 1
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 370
+                              height: 200
+                          card_mod:
+                            style: |
+                              :host {
+                                background: #0a0a0a;
+                              }
+                                  ha-card {
+                                    background:#0a0a0a;
+                                    margin-top: -10px;
+                                    margin-left: -15px;
+                                    margin-right: 30px;
+                                    margin-bottom: -25px;
+                                    padding: 15px;
+                                    width: auto;
+                                  }
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Süperlig
+                          secondary: Maç Programı
+                          picture: /local/png/futbol.png
+                          icon: mdi:weather-cloudy
+                          icon_color: blue
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 16px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:atomic-calendar-revive
+                          entities:
+                            - entity: calendar.chelsea
+                              blocklist: (word1)|(word2)
+                              name: Trabzonspor
+                            - entity: calendar.everton
+                              blocklist: (word1)|(word2)
+                              name: Galatasaray
+                            - entity: calendar.liverpool
+                              blocklist: (word1)|(word2)
+                              name: Fenerbahçe
+                            - entity: calendar.manchester_united
+                              blocklist: (word1)|(word2)
+                              name: Beşiktaş
+                          maxDaysToShow: 10
+                          firstDayOfWeek: 1
+                          refreshInterval: 600
+                          showMonth: true
+                          showCurrentEventLine: false
+                          showDate: false
+                          sortByStartTime: true
+                          showDeclined: true
+                          showRelativeTime: true
+                          showMultiDay: false
+                          showMultiDayEventParts: true
+                          hideDuplicates: false
+                          showLastCalendarWeek: false
+                          calShowDescription: true
+                          disableCalLink: false
+                          disableCalLocationLink: false
+                          disableCalEventLink: false
+                          dimFinishedEvents: false
+                          showProgressBar: false
+                          showDescription: false
+                          card_mod:
+                            style: |
+                              ha-card {
+                                background: transparent;
+                                font-size: 14px;
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Haberler01
+                          picture: /local/png/football.png
+                          icon: mdi:weather-cloudy
+                          icon_color: blue
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 18px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:list-card
+                          entity: sensor.genelfutbol
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 15
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 140
+                              height: 80
+                              card_mod:
+                                style: |
+                                  ha-card {
+                                    padding: 1px;
+                                    background: rgba(var(--rgb-primary-background-color), 0.5);
+                                    margin-bottom: -5px;
+                            - title: ''
+                              field: title
+                              add_link: link
+                              style:
+                                - white-space: wrap
+                          card_mod:
+                            style: |
+                              ha-card {
+                                padding: 1px;
+                                background: rgba(var(--rgb-primary-background-color), 0.5);
+                                margin-bottom: -5px;
+                                margin-right: -10px;
+                                margin-left: -10px;
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+              card_mod:
+                style: |
+                  ha-card {
+                    background: transparent;
+          - type: conditional
+            conditions:
+              - entity: input_boolean.news_chip_fenerbahce
+                state: 'on'
+            card:
+              type: custom:stack-in-card
+              layout_type: masonry
+              layout: {}
+              cards:
+                - type: grid
+                  columns: 1
+                  square: false
+                  cards:
+                    - type: vertical-stack
+                      cards:
+                        - type: custom:list-card
+                          entity: sensor.qieerxi
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 1
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 370
+                              height: 200
+                          card_mod:
+                            style: |
+                              :host {
+                                background: #0a0a0a;
+                              }
+                                  ha-card {
+                                    background:#0a0a0a;
+                                    margin-top: -10px;
+                                    margin-left: -15px;
+                                    margin-right: 30px;
+                                    margin-bottom: -25px;
+                                    padding: 15px;
+                                    width: auto;
+                                  }
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Fenerbahçe
+                          secondary: Maç Programı
+                          picture: /local/png/fenerbahce.png
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 16px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:atomic-calendar-revive
+                          entities:
+                            - entity: calendar.fenerbahce
+                              blocklist: (word1)|(word2)
+                              name: Fenerbahçe
+                          maxDaysToShow: 7
+                          firstDayOfWeek: 1
+                          refreshInterval: 600
+                          showMonth: true
+                          showCurrentEventLine: false
+                          showDate: false
+                          sortByStartTime: true
+                          showDeclined: true
+                          showRelativeTime: true
+                          showMultiDay: false
+                          showMultiDayEventParts: true
+                          hideDuplicates: false
+                          showLastCalendarWeek: false
+                          calShowDescription: true
+                          disableCalLink: false
+                          disableCalLocationLink: false
+                          disableCalEventLink: false
+                          dimFinishedEvents: false
+                          showProgressBar: false
+                          showDescription: false
+                          card_mod:
+                            style: |
+                              ha-card {
+                                background: transparent;
+                                font-size: 14px;
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Haberler
+                          picture: /local/png/rss5.png
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 18px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:list-card
+                          entity: sensor.qieerxi
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 15
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 140
+                              height: 80
+                              card_mod:
+                                style: |
+                                  ha-card {
+                                    padding: 1px;
+                                    background: rgba(var(--rgb-primary-background-color), 0.5);
+                                    margin-bottom: -5px;
+                            - title: ''
+                              field: title
+                              add_link: link
+                              style:
+                                - white-space: wrap
+                          card_mod:
+                            style: |
+                              ha-card {
+                                padding: 1px;
+                                background: rgba(var(--rgb-primary-background-color), 0.5);
+                                margin-bottom: -5px;
+                                margin-right: -10px;
+                                margin-left: -10px;
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+              card_mod:
+                style: |
+                  ha-card {
+                    background: transparent;
+          - type: conditional
+            conditions:
+              - entity: input_boolean.news_chip_besiktas
+                state: 'on'
+            card:
+              type: custom:stack-in-card
+              layout_type: masonry
+              layout: {}
+              cards:
+                - type: grid
+                  columns: 1
+                  square: false
+                  cards:
+                    - type: vertical-stack
+                      cards:
+                        - type: custom:list-card
+                          entity: sensor.manlian
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 1
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 370
+                              height: 200
+                          card_mod:
+                            style: |
+                              :host {
+                                background: #0a0a0a;
+                              }
+                                  ha-card {
+                                    background:#0a0a0a;
+                                    margin-top: -10px;
+                                    margin-left: -15px;
+                                    margin-right: 30px;
+                                    margin-bottom: -25px;
+                                    padding: 15px;
+                                    width: auto;
+                                  }
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Beşiktaş
+                          secondary: Maç Programı
+                          picture: /local/png/besiktas2.png
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 16px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:atomic-calendar-revive
+                          entities:
+                            - entity: calendar.besiktas
+                              blocklist: (word1)|(word2)
+                              name: Beşiktaş
+                          maxDaysToShow: 10
+                          firstDayOfWeek: 1
+                          refreshInterval: 600
+                          showMonth: true
+                          showCurrentEventLine: false
+                          showDate: false
+                          sortByStartTime: true
+                          showDeclined: true
+                          showRelativeTime: true
+                          showMultiDay: false
+                          showMultiDayEventParts: true
+                          hideDuplicates: false
+                          showLastCalendarWeek: false
+                          calShowDescription: true
+                          disableCalLink: false
+                          disableCalLocationLink: false
+                          disableCalEventLink: false
+                          dimFinishedEvents: false
+                          showProgressBar: false
+                          showDescription: false
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Haberler
+                          picture: /local/png/rss5.png
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 18px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:list-card
+                          entity: sensor.manlian
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 15
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 140
+                              height: 80
+                              card_mod:
+                                style: |
+                                  ha-card {
+                                    padding: 1px;
+                                    background: rgba(var(--rgb-primary-background-color), 0.5);
+                                    margin-bottom: -5px;
+                            - title: ''
+                              field: title
+                              add_link: link
+                              style:
+                                - white-space: wrap
+                          card_mod:
+                            style: |
+                              ha-card {
+                                padding: 1px;
+                                background: rgba(var(--rgb-primary-background-color), 0.5);
+                                margin-bottom: -5px;
+                                margin-right: -10px;
+                                margin-left: -10px;
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+              card_mod:
+                style: |
+                  ha-card {
+                    background: transparent;
+          - type: conditional
+            conditions:
+              - entity: input_boolean.news_chip_galatasaray
+                state: 'on'
+            card:
+              type: custom:stack-in-card
+              layout_type: masonry
+              layout: {}
+              cards:
+                - type: grid
+                  columns: 1
+                  square: false
+                  cards:
+                    - type: vertical-stack
+                      cards:
+                        - type: custom:list-card
+                          entity: sensor.huangma
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 1
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 370
+                              height: 200
+                          card_mod:
+                            style: |
+                              :host {
+                                background: #0a0a0a;
+                              }
+                                  ha-card {
+                                    background:#0a0a0a;
+                                    margin-top: -10px;
+                                    margin-left: -15px;
+                                    margin-right: 30px;
+                                    margin-bottom: -25px;
+                                    padding: 15px;
+                                    width: auto;
+                                  }
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Galatasaray
+                          secondary: Maç Programı
+                          picture: /local/png/galatasaray.png
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 16px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:atomic-calendar-revive
+                          entities:
+                            - entity: calendar.galatasaray
+                              blocklist: (word1)|(word2)
+                              name: Galatasaray
+                          maxDaysToShow: 10
+                          firstDayOfWeek: 1
+                          refreshInterval: 600
+                          showMonth: true
+                          showCurrentEventLine: false
+                          showDate: false
+                          sortByStartTime: true
+                          showDeclined: true
+                          showRelativeTime: true
+                          showMultiDay: false
+                          showMultiDayEventParts: true
+                          hideDuplicates: false
+                          showLastCalendarWeek: false
+                          calShowDescription: true
+                          disableCalLink: false
+                          disableCalLocationLink: false
+                          disableCalEventLink: false
+                          dimFinishedEvents: false
+                          showProgressBar: false
+                          showDescription: false
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Haberler
+                          picture: /local/png/rss5.png
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 18px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:list-card
+                          entity: sensor.huangma
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 15
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 140
+                              height: 80
+                              card_mod:
+                                style: |
+                                  ha-card {
+                                    padding: 1px;
+                                    background: rgba(var(--rgb-primary-background-color), 0.5);
+                                    margin-bottom: -5px;
+                            - title: ''
+                              field: title
+                              add_link: link
+                              style:
+                                - white-space: wrap
+                          card_mod:
+                            style: |
+                              ha-card {
+                                padding: 1px;
+                                background: rgba(var(--rgb-primary-background-color), 0.5);
+                                margin-bottom: -5px;
+                                margin-right: -10px;
+                                margin-left: -10px;
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+              card_mod:
+                style: |
+                  ha-card {
+                    background: transparent;
+          - type: conditional
+            conditions:
+              - entity: input_boolean.news_chip_trabzonspor
+                state: 'on'
+            card:
+              type: custom:stack-in-card
+              layout_type: masonry
+              layout: {}
+              cards:
+                - type: grid
+                  columns: 1
+                  square: false
+                  cards:
+                    - type: vertical-stack
+                      cards:
+                        - type: custom:list-card
+                          entity: sensor.asenna
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 1
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 370
+                              height: 200
+                          card_mod:
+                            style: |
+                              :host {
+                                background: #0a0a0a;
+                              }
+                                  ha-card {
+                                    background:#0a0a0a;
+                                    margin-top: -10px;
+                                    margin-left: -15px;
+                                    margin-right: 30px;
+                                    margin-bottom: -25px;
+                                    padding: 15px;
+                                    width: auto;
+                                  }
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Trabzonspor
+                          secondary: Maç Programı
+                          picture: /local/png/trabzonspor.png
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 16px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:atomic-calendar-revive
+                          entities:
+                            - entity: calendar.11xxx
+                              blocklist: (word1)|(word2)
+                              name: Trabzonspor
+                          maxDaysToShow: 10
+                          firstDayOfWeek: 1
+                          refreshInterval: 600
+                          showMonth: true
+                          showCurrentEventLine: false
+                          showDate: false
+                          sortByStartTime: true
+                          showDeclined: true
+                          showRelativeTime: true
+                          showMultiDay: false
+                          showMultiDayEventParts: true
+                          hideDuplicates: false
+                          showLastCalendarWeek: false
+                          calShowDescription: true
+                          disableCalLink: false
+                          disableCalLocationLink: false
+                          disableCalEventLink: false
+                          dimFinishedEvents: false
+                          showProgressBar: false
+                          showDescription: false
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Haberler
+                          picture: /local/png/rss5.png
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 18px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:list-card
+                          entity: sensor.asenna
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 15
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 140
+                              height: 80
+                              card_mod:
+                                style: |
+                                  ha-card {
+                                    padding: 1px;
+                                    background: rgba(var(--rgb-primary-background-color), 0.5);
+                                    margin-bottom: -5px;
+                            - title: ''
+                              field: title
+                              add_link: link
+                              style:
+                                - white-space: wrap
+                          card_mod:
+                            style: |
+                              ha-card {
+                                padding: 1px;
+                                background: rgba(var(--rgb-primary-background-color), 0.5);
+                                margin-bottom: -5px;
+                                margin-right: -10px;
+                                margin-left: -10px;
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+              card_mod:
+                style: |
+                  ha-card {
+                    background: transparent;
+        card_mod:
+          style: |
+            ha-card {
+              background: rgba(var(--rgb-primary-background-color), 0.5);
+              margin-top: -12px;
+              box-shadow: none;
+            }
+      - type: custom:stack-in-card
+        layout_type: masonry
+        layout: {}
+        cards:
+          - type: custom:layout-card
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: markdown
+                    content: Futbol....
+                    card_mod:
+                      style: |
+                        ha-markdown {
+                          padding: 45px 50px 2px 10px !important;
+                          font-size: 25px !important;
+                          font-weight: normal !important;
+                          line-height: 1.2 !important;
+                        }
+                        ha-card {
+                          background: transparent;
+                          color: #e1e1e1;
+                          box-shadow: 0px 0px;
+                          width: 300px;
+                          margin-top: 100px;
+                          margin-left: 0px;
+                          margin-right: 0px;
+                          margin-bottom: 0px;
+                          padding: 15
+                        }
+                  - type: custom:button-card
+                    color_type: blank-card
+                    styles:
+                      card:
+                        - width: 100px
+                  - type: conditional
+                    conditions:
+                      - entity: input_boolean.manlian
+                        state: 'on'
+                    card:
+                      type: picture-entity
+                      entity: input_boolean.manlian
+                      show_state: false
+                      show_name: false
+                      image: /local/png/manlian.png
+                      tap_action:
+                        action: navigate
+                        navigation_path: home
+                      double_tap_action:
+                        action: none
+                      hold_action:
+                        action: none
+                      theme: Mushroom
+                      card_mod:
+                        style: |
+                          :host {
+                            --ha-card-background: none;
+                          }
+                          ha-card {
+                            box-shadow: 0px 0px;
+                            background: none;
+                            margin-top: 40px;
+                            margin-left: 10px;
+                            margin-right: 10px;
+                            margin-bottom: 0px;
+                            padding: 15
+                            width: auto;
+                          }
+                      alignment: end
+                  - type: conditional
+                    conditions:
+                      - entity: input_boolean.asenna
+                        state: 'on'
+                    card:
+                      type: picture-entity
+                      entity: input_boolean.asenna
+                      show_state: false
+                      show_name: false
+                      image: /local/icons/asenna.png
+                      tap_action:
+                        action: navigate
+                        navigation_path: home
+                      double_tap_action:
+                        action: none
+                      hold_action:
+                        action: none
+                      theme: Mushroom
+                      card_mod:
+                        style: |
+                          :host {
+                            --ha-card-background: none;
+                          }
+                          ha-card {
+                            box-shadow: 0px 0px;
+                            background: none;
+                            margin-top: 40px;
+                            margin-left: 10px;
+                            margin-right: 10px;
+                            margin-bottom: 0px;
+                            padding: 15
+                            width: auto;
+                          }
+                      alignment: end
+                  - type: conditional
+                    conditions:
+                      - entity: input_boolean.huangma
+                        state: 'on'
+                    card:
+                      type: picture-entity
+                      entity: input_boolean.huangma
+                      show_state: false
+                      show_name: false
+                      image: /local/png/huangma.png
+                      tap_action:
+                        action: navigate
+                        navigation_path: home
+                      double_tap_action:
+                        action: none
+                      hold_action:
+                        action: none
+                      theme: Mushroom
+                      card_mod:
+                        style: |
+                          :host {
+                            --ha-card-background: none;
+                          }
+                          ha-card {
+                            box-shadow: 0px 0px;
+                            background: none;
+                            margin-top: 40px;
+                            margin-left: 10px;
+                            margin-right: 10px;
+                            margin-bottom: 0px;
+                            padding: 15
+                            width: auto;
+                          }
+                      alignment: end
+                  - type: conditional
+                    conditions:
+                      - entity: input_boolean.qieerxi
+                        state: 'on'
+                    card:
+                      type: picture-entity
+                      entity: input_boolean.qieerxi
+                      show_state: false
+                      show_name: false
+                      image: /local/png/qieerxi.png
+                      tap_action:
+                        action: navigate
+                        navigation_path: home
+                      double_tap_action:
+                        action: none
+                      hold_action:
+                        action: none
+                      theme: Mushroom
+                      card_mod:
+                        style: |
+                          :host {
+                            --ha-card-background: none;
+                          }
+                          ha-card {
+                            box-shadow: 0px 0px;
+                            background: none;
+                            margin-top: 40px;
+                            margin-left: 10px;
+                            margin-right: 10px;
+                            margin-bottom: 0px;
+                            padding: 15
+                            width: auto;
+                          }
+                      alignment: end
+                  - type: conditional
+                    conditions:
+                      - entity: input_boolean.qieerxi
+                        state: 'off'
+                      - entity: input_boolean.asenna
+                        state: 'off'
+                      - entity: input_boolean.huangma
+                        state: 'off'
+                      - entity: input_boolean.manlian
+                        state: 'off'
+                    card:
+                      type: picture-entity
+                      entity: input_boolean.news_chip_maradona
+                      show_state: false
+                      show_name: false
+                      image: /local/png/football.png
+                      tap_action:
+                        action: navigate
+                        navigation_path: home
+                      double_tap_action:
+                        action: none
+                      hold_action:
+                        action: none
+                      theme: Mushroom
+                      card_mod:
+                        style: |
+                          :host {
+                            --ha-card-background: none;
+                          }
+                          ha-card {
+                            box-shadow: 0px 0px;
+                            background: none;
+                            margin-top: 40px;
+                            margin-left: 10px;
+                            margin-right: 10px;
+                            margin-bottom: 0px;
+                            padding: 15
+                            width: auto;
+                          }
+                      alignment: end
+          - type: custom:layout-card
+            cards:
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: template
+                    icon: mdi:palette
+                    content: 曼联
+                    icon_color: amber
+                    picture: /local/png/manlian.png
+                    tap_action:
+                      action: call-service
+                      service: input_boolean.turn_on
+                      data: {}
+                      target:
+                        entity_id: input_boolean.news_chip_besiktas
+                    entity: input_boolean.news_chip_besiktas
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: none;
+                          {{ 'filter: grayscale(100%);' if is_state('input_boolean.news_chip_besiktas', 'off') }}
+                        }
+                        :host {
+                          --ha-card-background: rgba(var(--rgb-primary-text-color), 0.025);
+                          --primary-text-color:  {{ 'rgb(var(--rgb-amber))' if not is_state('input_boolean.news_chip_besiktas', 'off') else 'rgb(var(--rgb-white))' }};
+                        }
+                  - type: template
+                    icon: mdi:palette
+                    content: 阿森纳
+                    icon_color: amber
+                    picture: /local/png/asenna.png
+                    tap_action:
+                      action: call-service
+                      service: input_boolean.turn_on
+                      data: {}
+                      target:
+                        entity_id: input_boolean.news_chip_fenerbahce
+                    entity: input_boolean.news_chip_fenerbahce
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: none;
+                          {{ 'filter: grayscale(100%);' if is_state('input_boolean.news_chip_fenerbahce', 'off') }}
+                        }
+                        :host {
+                          --ha-card-background: rgba(var(--rgb-primary-text-color), 0.025);
+                          --primary-text-color:  {{ 'rgb(var(--rgb-amber))' if not is_state('input_boolean.news_chip_fenerbahce', 'off') else 'rgb(var(--rgb-white))' }};
+                        }
+                  - type: template
+                    icon: mdi:palette
+                    content: 皇马
+                    icon_color: amber
+                    picture: /local/png/huangma.png
+                    tap_action:
+                      action: call-service
+                      service: input_boolean.turn_on
+                      data: {}
+                      target:
+                        entity_id: input_boolean.news_chip_galatasaray
+                    entity: input_boolean.news_chip_galatasaray
+                    card_mod:
+                      style: |
+                        ha-card {
+                          {{ 'filter: grayscale(100%);' if is_state('input_boolean.news_chip_galatasaray', 'off') }}
+                        }
+                        :host {
+                          --ha-card-background: rgba(var(--rgb-primary-text-color), 0.025);
+                          --primary-text-color:  {{ 'rgb(var(--rgb-amber))' if not is_state('input_boolean.news_chip_galatasaray', 'off') else 'rgb(var(--rgb-white))' }};
+                        }
+                  - type: template
+                    icon: mdi:palette
+                    content: 切尔西
+                    icon_color: amber
+                    picture: local/png/qieerxi.png
+                    tap_action:
+                      action: call-service
+                      service: input_boolean.turn_on
+                      data: {}
+                      target:
+                        entity_id: input_boolean.news_chip_trabzonspor
+                    entity: input_boolean.news_chip_trabzonspor
+                    card_mod:
+                      style: |
+                        ha-card {
+                          {{ 'filter: grayscale(100%);' if is_state('input_boolean.news_chip_trabzonspor', 'off') }}
+                        }
+                        :host {
+                          --ha-card-background: rgba(var(--rgb-primary-text-color), 0.025);
+                          --primary-text-color:  {{ 'rgb(var(--rgb-amber))' if not is_state('input_boolean.news_chip_trabzonspor', 'off') else 'rgb(var(--rgb-white))' }};
+                        }
+                  - type: template
+                    icon: mdi:palette
+                    content: 英超比赛
+                    icon_color: amber
+                    picture: local/png/football.png
+                    tap_action:
+                      action: call-service
+                      service: input_boolean.turn_on
+                      data: {}
+                      target:
+                        entity_id: input_boolean.news_chip_haber
+                    entity: input_boolean.news_chip_haber
+                    card_mod:
+                      style: |
+                        ha-card {
+                          {{ 'filter: grayscale(100%);' if is_state('input_boolean.news_chip_haber', 'off') }}
+                        }
+                        :host {
+                          --ha-card-background: rgba(var(--rgb-primary-text-color), 0.025);
+                          --primary-text-color:  {{ 'rgb(var(--rgb-amber))' if not is_state('input_boolean.news_chip_haber', 'off') else 'rgb(var(--rgb-white))' }};
+                        }
+                alignment: center
+                card_mod:
+                  style: |
+                    ha-card {
+                      --chip-icon-size: 22px;
+                      --chip-box-shadow: none;
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.025);
+                      --chip-spacing: 0px;
+                      --chip-padding: 10px;
+                      margin-left: auto;
+                    }
+          - type: conditional
+            conditions:
+              - entity: input_boolean.news_chip_haber
+                state: 'on'
+            card:
+              type: custom:stack-in-card
+              layout_type: masonry
+              layout: {}
+              cards:
+                - type: grid
+                  columns: 1
+                  square: false
+                  cards:
+                    - type: vertical-stack
+                      cards:
+                        - type: custom:list-card
+                          entity: sensor.genelfutbol1
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 1
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 370
+                              height: 200
+                          card_mod:
+                            style: |
+                              :host {
+                                background: #0a0a0a;
+                              }
+                                  ha-card {
+                                    background:#0a0a0a;
+                                    margin-top: -10px;
+                                    margin-left: -15px;
+                                    margin-right: 30px;
+                                    margin-bottom: -25px;
+                                    padding: 15px;
+                                    width: auto;
+                                  }
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Süperlig
+                          secondary: Maç Programı
+                          picture: /local/png/futbol.png
+                          icon: mdi:weather-cloudy
+                          icon_color: blue
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 16px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:atomic-calendar-revive
+                          entities:
+                            - entity: calendar.chelsea
+                              blocklist: (word1)|(word2)
+                              name: Trabzonspor
+                            - entity: calendar.everton
+                              blocklist: (word1)|(word2)
+                              name: Galatasaray
+                            - entity: calendar.liverpool
+                              blocklist: (word1)|(word2)
+                              name: Fenerbahçe
+                            - entity: calendar.manchester_united
+                              blocklist: (word1)|(word2)
+                              name: Beşiktaş
+                          maxDaysToShow: 10
+                          firstDayOfWeek: 1
+                          refreshInterval: 600
+                          showMonth: true
+                          showCurrentEventLine: false
+                          showDate: false
+                          sortByStartTime: true
+                          showDeclined: true
+                          showRelativeTime: true
+                          showMultiDay: false
+                          showMultiDayEventParts: true
+                          hideDuplicates: false
+                          showLastCalendarWeek: false
+                          calShowDescription: true
+                          disableCalLink: false
+                          disableCalLocationLink: false
+                          disableCalEventLink: false
+                          dimFinishedEvents: false
+                          showProgressBar: false
+                          showDescription: false
+                          card_mod:
+                            style: |
+                              ha-card {
+                                background: transparent;
+                                font-size: 14px;
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Haberler01
+                          picture: /local/png/football.png
+                          icon: mdi:weather-cloudy
+                          icon_color: blue
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 18px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:list-card
+                          entity: sensor.genelfutbol
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 15
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 140
+                              height: 80
+                              card_mod:
+                                style: |
+                                  ha-card {
+                                    padding: 1px;
+                                    background: rgba(var(--rgb-primary-background-color), 0.5);
+                                    margin-bottom: -5px;
+                            - title: ''
+                              field: title
+                              add_link: link
+                              style:
+                                - white-space: wrap
+                          card_mod:
+                            style: |
+                              ha-card {
+                                padding: 1px;
+                                background: rgba(var(--rgb-primary-background-color), 0.5);
+                                margin-bottom: -5px;
+                                margin-right: -10px;
+                                margin-left: -10px;
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+              card_mod:
+                style: |
+                  ha-card {
+                    background: transparent;
+          - type: conditional
+            conditions:
+              - entity: input_boolean.news_chip_fenerbahce
+                state: 'on'
+            card:
+              type: custom:stack-in-card
+              layout_type: masonry
+              layout: {}
+              cards:
+                - type: grid
+                  columns: 1
+                  square: false
+                  cards:
+                    - type: vertical-stack
+                      cards:
+                        - type: custom:list-card
+                          entity: sensor.qieerxi
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 1
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 370
+                              height: 200
+                          card_mod:
+                            style: |
+                              :host {
+                                background: #0a0a0a;
+                              }
+                                  ha-card {
+                                    background:#0a0a0a;
+                                    margin-top: -10px;
+                                    margin-left: -15px;
+                                    margin-right: 30px;
+                                    margin-bottom: -25px;
+                                    padding: 15px;
+                                    width: auto;
+                                  }
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Fenerbahçe
+                          secondary: Maç Programı
+                          picture: /local/png/fenerbahce.png
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 16px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:atomic-calendar-revive
+                          entities:
+                            - entity: calendar.fenerbahce
+                              blocklist: (word1)|(word2)
+                              name: Fenerbahçe
+                          maxDaysToShow: 7
+                          firstDayOfWeek: 1
+                          refreshInterval: 600
+                          showMonth: true
+                          showCurrentEventLine: false
+                          showDate: false
+                          sortByStartTime: true
+                          showDeclined: true
+                          showRelativeTime: true
+                          showMultiDay: false
+                          showMultiDayEventParts: true
+                          hideDuplicates: false
+                          showLastCalendarWeek: false
+                          calShowDescription: true
+                          disableCalLink: false
+                          disableCalLocationLink: false
+                          disableCalEventLink: false
+                          dimFinishedEvents: false
+                          showProgressBar: false
+                          showDescription: false
+                          card_mod:
+                            style: |
+                              ha-card {
+                                background: transparent;
+                                font-size: 14px;
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Haberler
+                          picture: /local/png/rss5.png
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 18px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:list-card
+                          entity: sensor.qieerxi
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 15
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 140
+                              height: 80
+                              card_mod:
+                                style: |
+                                  ha-card {
+                                    padding: 1px;
+                                    background: rgba(var(--rgb-primary-background-color), 0.5);
+                                    margin-bottom: -5px;
+                            - title: ''
+                              field: title
+                              add_link: link
+                              style:
+                                - white-space: wrap
+                          card_mod:
+                            style: |
+                              ha-card {
+                                padding: 1px;
+                                background: rgba(var(--rgb-primary-background-color), 0.5);
+                                margin-bottom: -5px;
+                                margin-right: -10px;
+                                margin-left: -10px;
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+              card_mod:
+                style: |
+                  ha-card {
+                    background: transparent;
+          - type: conditional
+            conditions:
+              - entity: input_boolean.news_chip_besiktas
+                state: 'on'
+            card:
+              type: custom:stack-in-card
+              layout_type: masonry
+              layout: {}
+              cards:
+                - type: grid
+                  columns: 1
+                  square: false
+                  cards:
+                    - type: vertical-stack
+                      cards:
+                        - type: custom:list-card
+                          entity: sensor.manlian
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 1
+                          columns:
+                            - title: ''
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 370
+                              height: 200
+                          card_mod:
+                            style: |
+                              :host {
+                                background: #0a0a0a;
+                              }
+                                  ha-card {
+                                    background:#0a0a0a;
+                                    margin-top: -10px;
+                                    margin-left: -15px;
+                                    margin-right: 30px;
+                                    margin-bottom: -25px;
+                                    padding: 15px;
+                                    width: auto;
+                                  }
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Beşiktaş
+                          secondary: Maç Programı
+                          picture: /local/png/671.jpeg
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 16px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:atomic-calendar-revive
+                          entities:
+                            - entity: calendar.besiktas
+                              blocklist: (word1)|(word2)
+                              name: Beşiktaş
+                          maxDaysToShow: 10
+                          firstDayOfWeek: 1
+                          refreshInterval: 600
+                          showMonth: true
+                          showCurrentEventLine: false
+                          showDate: false
+                          sortByStartTime: true
+                          showDeclined: true
+                          showRelativeTime: true
+                          showMultiDay: false
+                          showMultiDayEventParts: true
+                          hideDuplicates: false
+                          showLastCalendarWeek: false
+                          calShowDescription: true
+                          disableCalLink: false
+                          disableCalLocationLink: false
+                          disableCalEventLink: false
+                          dimFinishedEvents: false
+                          showProgressBar: false
+                          showDescription: false
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+                    - type: custom:stack-in-card
+                      cards:
+                        - type: custom:mushroom-template-card
+                          primary: Haberler
+                          picture: /local/png/wugong2.png
+                          card_mod:
+                            style: |
+                              :host([dark-mode]) {
+                                background: rgba(var(--rgb-primary-background-color), 0.2);
+                                --card-primary-font-size: 18px;
+                                --card-secondary-font-size: 13px
+                              }
+                              :host {
+                                background: rgba(var(--rgb-primary-text-color), 0.025);
+                                --mush-icon-size: 53px;
+                                height: 76px;
+                                margin-left: 0px !important;
+                                margin-bottom: -10px !important;
+                              }
+                        - type: custom:list-card
+                          entity: sensor.manlian
+                          title: ''
+                          feed_attribute: entries
+                          row_limit: 15
+                          columns:
+                            - title: img001
+                              type: image
+                              add_link: link
+                              field: image
+                              width: 80
+                              height: 80
+                              card_mod:
+                                style: |
+                                  ha-card {
+                                    padding: 1px;
+                                    background: rgba(var(--rgb-primary-background-color), 0.5);
+                                    margin-bottom: -5px;
+                            - title: cont001
+                              field: title
+                              add_link: link
+                              style:
+                                - white-space: wrap
+                          card_mod:
+                            style: |
+                              ha-card {
+                                padding: 1px;
+                                background: rgba(var(--rgb-primary-background-color), 0.5);
+                                margin-bottom: -5px;
+                                margin-right: -10px;
+                                margin-left: -10px;
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background: transparent;
+              card_mod:
+                style: |
+                  ha-card {
+                    background: transparent;
 title: Liao‘s Home
